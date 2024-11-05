@@ -87,11 +87,10 @@ export default function signup({ userIdCookie }) {
         }
     };
 
-    // Take all info, return account creating
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // test to check that registration number is in correct format
-        const regExp = /^\d{2}[A-Za-z]{3}\d{5}$/; // regular expression pattern for nntttnnnnn format
+        // Updated regex pattern for RA followed by 14 digits
+        const regExp = /^RA\d{14}$/; // regular expression pattern for RA followed by 14 digits
         if (regExp.test(regNumber)) {
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_API_URL}/user/signup/verify`,
@@ -114,16 +113,17 @@ export default function signup({ userIdCookie }) {
                 setMessage({ errorMsg: "", successMsg: data.msg });
                 console.log(data);
                 setStep(3); // Move to next step on the same page
-    
+
                 setUserToken(data.user_id); // set cookie when signed up
             } else {
                 console.error(`Failed with status code ${response.status}`);
                 setMessage({ errorMsg: data.msg, successMsg: "" });
             }
         } else {
-            setMessage({ errorMsg: "Registeration Number is not valid", successMsg: "" });
+            setMessage({ errorMsg: "Registration Number is not valid", successMsg: "" });
         }
     };
+
 
     return (
         <div className="m-2">
@@ -295,7 +295,7 @@ export default function signup({ userIdCookie }) {
                                 {/* REG-NUMBER */}
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-700">
-                                        Enter VIT Registration Number
+                                        Enter RMP Registration Number
                                     </label>
                                     <input
                                         type="text"
