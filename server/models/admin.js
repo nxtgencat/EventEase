@@ -5,7 +5,7 @@ const adminSchema = new mongoose.Schema(
     {
         admin_id: {
             type: String,
-            requird: true,
+            required: true,  // Corrected spelling
         },
         email: {
             type: String,
@@ -37,20 +37,19 @@ const test_credential = new Admin({
     pass: "invite123",
 });
 
-Admin.find(
-    { admin_id: "hqwkufywealufyewf.weiugbfre654wegreg" },
-    async function (err, docs) {
-        if (docs.length === 0) {
-            test_credential.save((error, success) => {
-                if (error) console.log(error);
-                else
-                    console.log(
-                        "Saved::Admin::test credentials",
-                        test_credential
-                    );
-            });
+(async () => {
+    try {
+        const docs = await Admin.find({ admin_id: "hqwkufywealufyewf.weiugbfre654wegreg" });
+
+        if (Array.isArray(docs) && docs.length === 0) {
+            await test_credential.save();
+            console.log("Saved::Admin::test credentials", test_credential);
+        } else {
+            console.log("Admin credentials already exist:", docs);
         }
+    } catch (error) {
+        console.error("Error finding or saving Admin:", error);
     }
-);
+})();
 
 module.exports = Admin;

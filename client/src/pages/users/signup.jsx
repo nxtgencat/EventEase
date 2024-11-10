@@ -90,7 +90,7 @@ export default function signup({ userIdCookie }) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         // Updated regex pattern for RA followed by 14 digits
-        const regExp = /^RA\d{14}$/; // regular expression pattern for RA followed by 14 digits
+        const regExp = /^RA\d{13}$/; // regular expression pattern for RA followed by 14 digits
         if (regExp.test(regNumber)) {
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_API_URL}/user/signup/verify`,
